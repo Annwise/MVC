@@ -14,13 +14,13 @@ class UserMenu:
             return int(input("Enter your choice (1-5): "))
         except ValueError:
             return -1
-        
+
     @staticmethod
     def show_notes(notes: list):
         if not notes:
             print("No notes available.")
             return
-        
+
         print("\n=== Your Notes ===")
         for note in notes:
             print(f"\nID: {note.id}")
@@ -32,5 +32,15 @@ class UserMenu:
     def get_note_data() -> tuple:
         title = input("Enter note title: ")
         content = input("Enter note content: ")
-        return
-                        
+        return title, content
+
+    @staticmethod
+    def get_note_id() -> int:
+        try:
+            return int(input("Enter note ID: "))
+        except ValueError:
+            return -1
+
+    @staticmethod
+    def show_message(message: str):
+        print(message)

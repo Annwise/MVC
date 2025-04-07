@@ -22,11 +22,10 @@ class Database:
             content TEXT NOT NULL
         )
         """
-
         self.conn.execute(query)
         self.conn.commit()
 
-    def add_note(self, note_: Note) -> int:
+    def add_note(self, note: Note) -> int:
         query = "INSERT INTO notes (title, content) VALUES (?, ?)"
         cursor = self.conn.cursor()
         cursor.execute(query, (note.title, note.content))
@@ -34,7 +33,7 @@ class Database:
         return cursor.lastrowid
 
     def get_note(self, note_id: int) -> Optional[Note]:
-        query = "SELECT id, title, content, FROM notes WHERE id = ?"
+        query = "SELECT id, title, content FROM notes WHERE id = ?"
         cursor = self.conn.execute(query, (note_id,))
         row = cursor.fetchone()
         if row:
@@ -42,7 +41,7 @@ class Database:
         return None
 
     def get_all_notes(self) -> List[Note]:
-        query = "SELECT id, title, content, FROM notes"
+        query = "SELECT id, title, content FROM notes"
         cursor = self.conn.execute(query)
         return [Note(id=row[0],
                      title=row[1],
@@ -51,7 +50,7 @@ class Database:
     def update_note(self, note: Note) -> bool:
         query = "UPDATE notes SET title = ?, content = ? WHERE id = ?"
         cursor = self.conn.cursor()
-        cursor.execute(query, (note.title, note.content. note.id))
+        cursor.execute(query, (note.title, note.content, note.id))
         self.conn.commit()
         return cursor.rowcount > 0
 
