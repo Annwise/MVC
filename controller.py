@@ -1,5 +1,6 @@
 from model import Database, Note
 from view import UserMenu
+from loguru import logger
 
 
 class Controller:
@@ -35,6 +36,7 @@ class Controller:
         note = Note(title=title, content=content)
         note_id = self.db.add_note(note)
         self.menu.show_message(f"Note added successfully with ID: {note_id}")
+        logger.info("Заметка создана!")
 
     def edit_note(self):
         note_id = self.menu.get_note_id()
@@ -65,5 +67,6 @@ class Controller:
 
         if self.db.delete_note(note_id):
             self.menu.show_message("Note deleted successfully")
+            logger.info("Заметка удалена!")
         else:
             self.menu.show_message("Note not found or could not be deleted")

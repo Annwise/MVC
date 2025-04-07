@@ -1,5 +1,6 @@
 import sqlite3
 from typing import List, Optional
+from loguru import logger
 
 
 class Note:
@@ -37,8 +38,11 @@ class Database:
         cursor = self.conn.execute(query, (note_id,))
         row = cursor.fetchone()
         if row:
+            self.logger.info(f"Note found with ID: {note_id}")
             return Note(id=row[0], title=row[1], content=row[2])
-        return None
+        else:
+            self.logger.warning(f"Note with ID {note_id} not found.")
+            return None
 
     def get_all_notes(self) -> List[Note]:
         query = "SELECT id, title, content FROM notes"
@@ -63,3 +67,4 @@ class Database:
 
     def __del__(self):
         self.conn.close()
+        logger.info("Closing database connection.")
