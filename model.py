@@ -38,11 +38,8 @@ class Database:
         cursor = self.conn.execute(query, (note_id,))
         row = cursor.fetchone()
         if row:
-            self.logger.info(f"Note found with ID: {note_id}")
             return Note(id=row[0], title=row[1], content=row[2])
-        else:
-            self.logger.warning(f"Note with ID {note_id} not found.")
-            return None
+        return None
 
     def get_all_notes(self) -> List[Note]:
         query = "SELECT id, title, content FROM notes"
